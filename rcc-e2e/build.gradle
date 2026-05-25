@@ -8,6 +8,11 @@ version = '1.0.0'
 def allureVersion = '2.32.0'
 def aspectJVersion = '1.9.22'
 def junitVersion = '6.0.2'
+def selenideVersion = '7.16.1'
+def fakerVersion = '1.0.2'
+def snakeYamlVersion = '1.33'
+def springJdbcVersion = "7.0.5"
+def mySqlConnectorVersion = "8.0.33"
 
 configurations {
     agent {
@@ -24,6 +29,18 @@ dependencies {
 
     testImplementation platform("org.junit:junit-bom:$junitVersion")
     testImplementation "org.junit.jupiter:junit-jupiter"
+
+    testImplementation "com.codeborne:selenide:${selenideVersion}"
+
+    testImplementation("com.github.javafaker:javafaker:${fakerVersion}") {
+        exclude group: 'org.yaml'
+    }
+    testImplementation "org.yaml:snakeyaml:${snakeYamlVersion}"
+
+    testImplementation "org.springframework:spring-jdbc:${springJdbcVersion}"
+    testImplementation "mysql:mysql-connector-java:${mySqlConnectorVersion}"
+
+    testImplementation("org.springframework.security:spring-security-crypto")
 }
 
 allure {
