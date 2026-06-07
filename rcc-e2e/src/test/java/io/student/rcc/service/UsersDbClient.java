@@ -9,7 +9,7 @@ import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-public class UserDbClient implements UserClient {
+public class UsersDbClient implements UsersClient {
 
   private static Config CFG = Config.getInstance();
   private final PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
@@ -18,12 +18,12 @@ public class UserDbClient implements UserClient {
           CFG.authJdbcUrl(),
           CFG.dbUsername(),
           CFG.dbPassword(),
-          true
+          false
       )
   );
 
   @Override
-  public UserJson createUser(String username, String password) {
+  public UserJson createUser(UserJson userJson) {
     final UUID userId = UUID.randomUUID();
     jdbcTemplate.update(
         con -> {
@@ -34,8 +34,8 @@ public class UserDbClient implements UserClient {
                       """
           );
           ps.setString(1, userId.toString());
-          ps.setString(2, username);
-          ps.setString(3, passwordEncoder.encode(password));
+          ps.setString(2, userJson.username());
+          ps.setString(3, passwordEncoder.encode(userJson.password()));
           ps.setBoolean(4, true);
           ps.setBoolean(5, true);
           ps.setBoolean(6, true);
@@ -43,6 +43,7 @@ public class UserDbClient implements UserClient {
           return ps;
         }
     );
-    return new UserJson(userId, username, password);
+    return new UserJson(userId, userJson.username(), userJson.password(), userJson.firstname(), userJson.lastName(),
+        userJson.avatar());
   }
 }

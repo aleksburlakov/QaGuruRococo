@@ -13,8 +13,8 @@ public class RegistrationPage {
   private final SelenideElement passwordSubmitInput = $("input[id='passwordSubmit']");
   private final SelenideElement registerButton = $("button[type='submit']");
   private final SelenideElement successRegistrationTitle = $("p[class='form__subheader']");
-  private final SelenideElement errorPasswordMessage = $("span[class='form__error error__password']");
-  private final SelenideElement userAlreadyExistMessage = $("span[class='form__error error__username']");
+  private final SelenideElement errorPasswordMessage = $(".error__password");
+  private final SelenideElement userAlreadyExistMessage = $(".error__username");
 
   public RegistrationPage registerNewUser(String userName, String userPassword, String confirmPassword) {
     userNameInput.setValue(userName);
@@ -25,17 +25,17 @@ public class RegistrationPage {
   }
 
   public RegistrationPage checkSuccessRegistrationTitle(String successRegistrationText) {
-    successRegistrationTitle.shouldBe(visible).shouldBe(text(successRegistrationText));
+    successRegistrationTitle.shouldBe(visible).shouldHave(text(successRegistrationText));
     return this;
   }
 
   public RegistrationPage checkErrorPasswordMessage(String errorPasswordText) {
-    errorPasswordMessage.shouldBe(visible).shouldBe(text(errorPasswordText));
+    errorPasswordMessage.shouldBe(visible).shouldHave(text(errorPasswordText));
     return this;
   }
 
   public RegistrationPage checkUserAlreadyExistMessage(String userAlreadyExistText) {
-    userAlreadyExistMessage.shouldBe(visible).shouldBe(text(userAlreadyExistText));
+    userAlreadyExistMessage.shouldBe(visible).shouldHave(text(userAlreadyExistText));
     return this;
   }
 }

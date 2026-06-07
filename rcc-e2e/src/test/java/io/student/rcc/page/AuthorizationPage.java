@@ -34,7 +34,7 @@ public class AuthorizationPage {
   }
 
   public AuthorizationPage checkLoginErrorMessageText(String loginErrorMessageText) {
-    errorLoginMessage.shouldBe(text(loginErrorMessageText));
+    errorLoginMessage.shouldHave(text(loginErrorMessageText));
     return this;
   }
 }

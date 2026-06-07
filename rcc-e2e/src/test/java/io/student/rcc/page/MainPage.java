@@ -9,9 +9,9 @@ import com.codeborne.selenide.SelenideElement;
 public class MainPage {
 
   private final SelenideElement enterButton = $x("//button[text()='Войти']");
-  private final SelenideElement addPaintingButton = $("a[href='/painting']");
-  private final SelenideElement addArtistButton = $("a[href='/artist']");
-  private final SelenideElement addMuseumButton = $("a[href='/museum']");
+  private final SelenideElement addPaintingLink = $("a[href='/painting']");
+  private final SelenideElement addArtistLink = $("a[href='/artist']");
+  private final SelenideElement addMuseumLink = $("a[href='/museum']");
 
   public AuthorizationPage clickLoginButton() {
     enterButton.click();
@@ -19,8 +19,8 @@ public class MainPage {
   }
 
   public void checkMainPageDisplayed() {
-    addPaintingButton.shouldBe(visible);
-    addArtistButton.shouldBe(visible);
-    addMuseumButton.shouldBe(visible);
+    addPaintingLink.shouldBe(visible);
+    addArtistLink.shouldBe(visible);
+    addMuseumLink.shouldBe(visible);
   }
 }
