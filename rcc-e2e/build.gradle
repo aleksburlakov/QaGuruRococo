@@ -7,6 +7,8 @@ version = '1.0.0'
 
 def allureVersion = '2.32.0'
 def aspectJVersion = '1.9.22'
+def atomikosVersion = '6.0.0'
+def hibernateVersion = '6.6.13.Final'
 def junitVersion = '6.0.2'
 def selenideVersion = '7.16.1'
 def fakerVersion = '1.0.2'
@@ -24,6 +26,8 @@ configurations {
 dependencies {
     agent "org.aspectj:aspectjweaver:$aspectJVersion"
 
+    testImplementation 'com.google.code.findbugs:jsr305:3.0.2'
+
     testImplementation platform("io.qameta.allure:allure-bom:$allureVersion")
     testImplementation "io.qameta.allure:allure-junit5"
 
@@ -37,10 +41,21 @@ dependencies {
     }
     testImplementation "org.yaml:snakeyaml:${snakeYamlVersion}"
 
+    // DB
     testImplementation "org.springframework:spring-jdbc:${springJdbcVersion}"
     testImplementation "mysql:mysql-connector-java:${mySqlConnectorVersion}"
-
+    testImplementation "com.atomikos:transactions-jta:${atomikosVersion}:jakarta"
+    testImplementation "com.atomikos:transactions-hibernate4:${atomikosVersion}:jakarta"
+    testImplementation "com.atomikos:transactions-jdbc:${atomikosVersion}"
+    testImplementation "org.hibernate:hibernate-core:${hibernateVersion}"
     testImplementation("org.springframework.security:spring-security-crypto")
+
+    // Lombok
+    testAnnotationProcessor "org.projectlombok:lombok:${project.ext.lombokVersion}"
+    testCompileOnly "org.projectlombok:lombok:${project.ext.lombokVersion}"
+
+    //Utils
+    testImplementation 'com.github.h-thurow:simple-jndi:0.24.0'
 }
 
 allure {

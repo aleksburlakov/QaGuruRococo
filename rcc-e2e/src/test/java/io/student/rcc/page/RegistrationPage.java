@@ -14,7 +14,7 @@ public class RegistrationPage {
   private final SelenideElement registerButton = $("button[type='submit']");
   private final SelenideElement successRegistrationTitle = $("p[class='form__subheader']");
   private final SelenideElement errorPasswordMessage = $(".error__password");
-  private final SelenideElement userAlreadyExistMessage = $(".error__username");
+  private final SelenideElement userAlreadyExistMessage = $(".form__error.error__username");
 
   public RegistrationPage registerNewUser(String userName, String userPassword, String confirmPassword) {
     userNameInput.setValue(userName);

@@ -20,4 +20,12 @@ public class TestDataGenerator {
   public static String generateRandomLastname() {
     return faker.name().lastName();
   }
+
+  public static String generateRandomCity() {
+    return faker.address().city();
+  }
+
+  public static String generateRandomWord() {
+    return faker.lorem().characters();
+  }
 }
