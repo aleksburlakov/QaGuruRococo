@@ -5,6 +5,7 @@ import io.student.rcc.data.repository.impl.CountryRepositoryHibernate;
 import io.student.rcc.data.repository.impl.CountryRepositoryJdbc;
 import io.student.rcc.data.repository.impl.CountryRepositorySpringJdbc;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -18,9 +19,9 @@ public interface CountryRepository {
     };
   }
 
-  Optional<CountryEntity> findById(UUID id);
+  @Nonnull Optional<CountryEntity> findById(@Nonnull UUID id);
 
-  Optional<CountryEntity> findByName(String name);
+  @Nonnull Optional<CountryEntity> findByName(@Nonnull String name);
 
-  List<CountryEntity> findAll();
+  @Nonnull List<CountryEntity> findAll();
 }

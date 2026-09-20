@@ -2,23 +2,29 @@ package io.student.rcc.service;
 
 import io.student.rcc.model.ArtistJson;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 public interface ArtistClient {
 
-  ArtistJson createArtist(ArtistJson artist);
+  @Nonnull
+  ArtistJson createArtist(@Nonnull ArtistJson artist);
 
-  ArtistJson updateArtist(ArtistJson artist);
+  @Nonnull
+  ArtistJson updateArtist(@Nonnull ArtistJson artist);
 
-  Optional<ArtistJson> findArtistById(UUID id);
+  @Nonnull
+  Optional<ArtistJson> findArtistById(@Nonnull UUID id);
 
-  Optional<ArtistJson> findArtistByName(String name);
+  @Nonnull
+  Optional<ArtistJson> findArtistByName(@Nonnull String name);
 
+  @Nonnull
   List<ArtistJson> findAllArtists();
 
-  void removeArtist(ArtistJson artistJson);
+  void removeArtist(@Nonnull ArtistJson artistJson);
 
   void removeAllArtists();
 }

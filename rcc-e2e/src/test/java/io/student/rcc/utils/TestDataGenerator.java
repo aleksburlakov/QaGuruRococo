@@ -28,4 +28,8 @@ public class TestDataGenerator {
   public static String generateRandomWord() {
     return faker.lorem().characters();
   }
+
+  public static String generateStringWithExpectedLength(int expectedLength) {
+    return faker.lorem().characters(expectedLength);
+  }
 }

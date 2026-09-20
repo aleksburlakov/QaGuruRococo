@@ -5,6 +5,7 @@ import io.student.rcc.data.entity.ArtistEntity;
 import io.student.rcc.data.repository.ArtistRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
+import org.jspecify.annotations.NonNull;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,26 +19,26 @@ public class ArtistRepositoryHibernate implements ArtistRepository {
   private final EntityManager entityManager = em(CFG.apiJdbcUrl());
 
   @Override
-  public ArtistEntity create(ArtistEntity artist) {
+  public @NonNull ArtistEntity create(@NonNull ArtistEntity artist) {
     entityManager.joinTransaction();
     entityManager.persist(artist);
     return artist;
   }
 
   @Override
-  public ArtistEntity update(ArtistEntity artist) {
+  public @NonNull ArtistEntity update(@NonNull ArtistEntity artist) {
     return entityManager.merge(artist);
   }
 
   @Override
-  public Optional<ArtistEntity> findById(UUID id) {
+  public @NonNull Optional<ArtistEntity> findById(@NonNull UUID id) {
     return Optional.ofNullable(
         entityManager.find(ArtistEntity.class, id)
     );
   }
 
   @Override
-  public Optional<ArtistEntity> findByName(String name) {
+  public @NonNull Optional<ArtistEntity> findByName(@NonNull String name) {
     try {
       return Optional.of(
           entityManager.createQuery("select a from ArtistEntity a where a.name =: name", ArtistEntity.class)
@@ -50,13 +51,13 @@ public class ArtistRepositoryHibernate implements ArtistRepository {
   }
 
   @Override
-  public List<ArtistEntity> findAll() {
+  public @NonNull List<ArtistEntity> findAll() {
     return entityManager.createQuery("select a from ArtistEntity a", ArtistEntity.class)
         .getResultList();
   }
 
   @Override
-  public void remove(ArtistEntity artistEntity) {
+  public void remove(@NonNull ArtistEntity artistEntity) {
     entityManager.joinTransaction();
     ArtistEntity deleteArtist = entityManager.find(ArtistEntity.class, artistEntity.getId());
     if (deleteArtist != null) {

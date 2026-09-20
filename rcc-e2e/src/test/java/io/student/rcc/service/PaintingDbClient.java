@@ -13,6 +13,7 @@ import io.student.rcc.data.tpl.XaTransactionTemplate;
 import io.student.rcc.model.ArtistJson;
 import io.student.rcc.model.MuseumJson;
 import io.student.rcc.model.PaintingJson;
+import org.jspecify.annotations.NonNull;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,7 +33,7 @@ public class PaintingDbClient implements PaintingClient {
   );
 
   @Override
-  public PaintingJson createPainting(PaintingJson painting) {
+  public @NonNull PaintingJson createPainting(@NonNull PaintingJson painting) {
     return xaTransactionTemplate.execute(() -> {
       PaintingEntity paintingEntity = PaintingEntity.fromJson(painting);
       paintingEntity.setArtist(getOrCreateArtist(painting.artist()));
@@ -42,7 +43,7 @@ public class PaintingDbClient implements PaintingClient {
   }
 
   @Override
-  public PaintingJson updatePainting(PaintingJson painting) {
+  public @NonNull PaintingJson updatePainting(@NonNull PaintingJson painting) {
     return xaTransactionTemplate.execute(() -> {
       PaintingEntity paintingEntity = PaintingEntity.fromJson(painting);
       paintingEntity.setArtist(getOrCreateArtist(painting.artist()));
@@ -52,26 +53,26 @@ public class PaintingDbClient implements PaintingClient {
   }
 
   @Override
-  public Optional<PaintingJson> findPaintingById(UUID id) {
+  public @NonNull Optional<PaintingJson> findPaintingById(@NonNull UUID id) {
     return paintingRepository.findById(id)
         .map(PaintingJson::fromEntity);
   }
 
   @Override
-  public Optional<PaintingJson> findPaintingByTitle(String title) {
+  public @NonNull Optional<PaintingJson> findPaintingByTitle(@NonNull String title) {
     return paintingRepository.findByTitle(title)
         .map(PaintingJson::fromEntity);
   }
 
   @Override
-  public List<PaintingJson> findAllPaintings() {
+  public @NonNull List<PaintingJson> findAllPaintings() {
     return paintingRepository.findAllPainting().stream()
         .map(PaintingJson::fromEntity)
         .collect(Collectors.toList());
   }
 
   @Override
-  public void removePainting(PaintingJson paintingJson) {
+  public void removePainting(@NonNull PaintingJson paintingJson) {
     xaTransactionTemplate.execute(() -> {
       paintingRepository.remove(PaintingEntity.fromJson(paintingJson));
       return null;

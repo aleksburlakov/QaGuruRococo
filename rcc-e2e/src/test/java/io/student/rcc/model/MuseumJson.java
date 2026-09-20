@@ -3,6 +3,8 @@ package io.student.rcc.model;
 import io.qameta.allure.internal.shadowed.jackson.annotation.JsonProperty;
 import io.student.rcc.data.entity.MuseumEntity;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.UUID;
 
 public record MuseumJson(
@@ -19,7 +21,8 @@ public record MuseumJson(
     @JsonProperty("country")
     CountryJson country) {
 
-  public static MuseumJson fromEntity(MuseumEntity entity) {
+  @Nullable
+  public static MuseumJson fromEntity(@Nullable MuseumEntity entity) {
     if (entity == null) {
       return null;
     }

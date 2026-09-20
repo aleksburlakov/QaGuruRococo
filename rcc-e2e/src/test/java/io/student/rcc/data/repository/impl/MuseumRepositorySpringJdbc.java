@@ -5,6 +5,7 @@ import io.student.rcc.data.entity.MuseumEntity;
 import io.student.rcc.data.extractor.MuseumExtractor;
 import io.student.rcc.data.repository.MuseumRepository;
 import io.student.rcc.data.tpl.DataSources;
+import org.jspecify.annotations.NonNull;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -19,7 +20,7 @@ public class MuseumRepositorySpringJdbc implements MuseumRepository {
   private final JdbcTemplate jdbcTemplate = new JdbcTemplate(DataSources.dataSource(CFG.apiJdbcUrl()));
 
   @Override
-  public MuseumEntity create(MuseumEntity museum) {
+  public @NonNull MuseumEntity create(@NonNull MuseumEntity museum) {
     UUID id = museum.getId() != null ? museum.getId() : UUID.randomUUID();
     jdbcTemplate.update(
         "INSERT INTO museum (id, title, description, city, photo, country_id) " +
@@ -38,7 +39,7 @@ public class MuseumRepositorySpringJdbc implements MuseumRepository {
   }
 
   @Override
-  public MuseumEntity update(MuseumEntity museum) {
+  public @NonNull MuseumEntity update(@NonNull MuseumEntity museum) {
     int updatedRows = jdbcTemplate.update(
         "UPDATE museum SET title = ?, description = ?, city = ?, photo = ?, country_id = UUID_TO_BIN(?) " +
             "WHERE id = UUID_TO_BIN(?)",
@@ -58,7 +59,7 @@ public class MuseumRepositorySpringJdbc implements MuseumRepository {
   }
 
   @Override
-  public Optional<MuseumEntity> findById(UUID id) {
+  public @NonNull Optional<MuseumEntity> findById(@NonNull UUID id) {
     try {
       return Optional.ofNullable(
           jdbcTemplate.query(
@@ -83,7 +84,7 @@ public class MuseumRepositorySpringJdbc implements MuseumRepository {
   }
 
   @Override
-  public Optional<MuseumEntity> findByTitle(String title) {
+  public @NonNull Optional<MuseumEntity> findByTitle(@NonNull String title) {
     try {
       return Optional.ofNullable(
           jdbcTemplate.query(
@@ -108,7 +109,7 @@ public class MuseumRepositorySpringJdbc implements MuseumRepository {
   }
 
   @Override
-  public List<MuseumEntity> findAll() {
+  public @NonNull List<MuseumEntity> findAll() {
     return jdbcTemplate.query(
         "SELECT " +
             "BIN_TO_UUID(m.id) as museum_id, " +
@@ -125,7 +126,7 @@ public class MuseumRepositorySpringJdbc implements MuseumRepository {
   }
 
   @Override
-  public void remove(MuseumEntity museumEntity) {
+  public void remove(@NonNull MuseumEntity museumEntity) {
     jdbcTemplate.update("DELETE FROM museum WHERE id = UUID_TO_BIN(?)", museumEntity.getId().toString());
   }
 

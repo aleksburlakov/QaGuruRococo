@@ -4,6 +4,7 @@ import io.student.rcc.config.Config;
 import io.student.rcc.data.entity.CountryEntity;
 import io.student.rcc.data.entity.MuseumEntity;
 import io.student.rcc.data.repository.MuseumRepository;
+import org.jspecify.annotations.NonNull;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,7 +22,7 @@ public class MuseumRepositoryJdbc implements MuseumRepository {
   private static final String URL = CFG.apiJdbcUrl();
 
   @Override
-  public MuseumEntity create(MuseumEntity museum) {
+  public @NonNull MuseumEntity create(@NonNull MuseumEntity museum) {
     try (PreparedStatement ps = holder(URL).connection().prepareStatement(
         "INSERT INTO museum (id, title, description, city, photo, country_id) " +
             "VALUES (UUID_TO_BIN(?), ?, ?, ?, ?, UUID_TO_BIN(?))")) {
@@ -44,7 +45,7 @@ public class MuseumRepositoryJdbc implements MuseumRepository {
   }
 
   @Override
-  public MuseumEntity update(MuseumEntity museum) {
+  public @NonNull MuseumEntity update(@NonNull MuseumEntity museum) {
     try (PreparedStatement ps = holder(URL).connection().prepareStatement(
         "UPDATE museum SET title = ?, description = ?, city = ?, photo = ?, country_id = UUID_TO_BIN(?) " +
             "WHERE id = UUID_TO_BIN(?)"
@@ -68,7 +69,7 @@ public class MuseumRepositoryJdbc implements MuseumRepository {
   }
 
   @Override
-  public Optional<MuseumEntity> findById(UUID id) {
+  public @NonNull Optional<MuseumEntity> findById(@NonNull UUID id) {
     try (PreparedStatement ps = holder(URL).connection().prepareStatement(
         "SELECT " +
             "BIN_TO_UUID(m.id) as museum_id, " +
@@ -97,7 +98,7 @@ public class MuseumRepositoryJdbc implements MuseumRepository {
   }
 
   @Override
-  public Optional<MuseumEntity> findByTitle(String title) {
+  public @NonNull Optional<MuseumEntity> findByTitle(@NonNull String title) {
     try (PreparedStatement ps = holder(URL).connection().prepareStatement(
         "SELECT " +
             "BIN_TO_UUID(m.id) as museum_id, " +
@@ -126,7 +127,7 @@ public class MuseumRepositoryJdbc implements MuseumRepository {
   }
 
   @Override
-  public List<MuseumEntity> findAll() {
+  public @NonNull List<MuseumEntity> findAll() {
     try (PreparedStatement ps = holder(URL).connection().prepareStatement(
         "SELECT " +
             "BIN_TO_UUID(m.id) as museum_id, " +
@@ -153,7 +154,7 @@ public class MuseumRepositoryJdbc implements MuseumRepository {
   }
 
   @Override
-  public void remove(MuseumEntity museumEntity) {
+  public void remove(@NonNull MuseumEntity museumEntity) {
     try (PreparedStatement deletePs = holder(URL).connection().prepareStatement(
         "DELETE FROM museum WHERE id = UUID_TO_BIN(?)"
     )) {

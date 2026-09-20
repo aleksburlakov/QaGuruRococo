@@ -5,9 +5,11 @@ import io.student.rcc.data.entity.UserEntity;
 import io.student.rcc.data.mapper.UserdataUserEntityRowMapper;
 import io.student.rcc.data.repository.UserRepository;
 import io.student.rcc.data.tpl.DataSources;
+import org.jspecify.annotations.NonNull;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import javax.annotation.Nonnull;
 import java.sql.PreparedStatement;
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +21,7 @@ public class UserRepositorySpringJdbc implements UserRepository {
   private final JdbcTemplate jdbcTemplate = new JdbcTemplate(DataSources.dataSource(CFG.apiJdbcUrl()));
 
   @Override
-  public UserEntity create(UserEntity user) {
+  public @NonNull UserEntity create(@NonNull UserEntity user) {
     UUID id = user.getId() != null ? user.getId() : UUID.randomUUID();
     jdbcTemplate.update(con -> {
       PreparedStatement ps = con.prepareStatement(
@@ -39,7 +41,7 @@ public class UserRepositorySpringJdbc implements UserRepository {
   }
 
   @Override
-  public UserEntity update(UserEntity user) {
+  public @NonNull UserEntity update(@NonNull UserEntity user) {
     int updatedRows = jdbcTemplate.update(
         "UPDATE user SET username = ?, firstname = ?, lastname = ?, avatar = ? WHERE id = UUID_TO_BIN(?)",
         user.getUsername(),
@@ -55,8 +57,9 @@ public class UserRepositorySpringJdbc implements UserRepository {
     return user;
   }
 
+  @Nonnull
   @Override
-  public Optional<UserEntity> findById(UUID id) {
+  public Optional<UserEntity> findById(@NonNull UUID id) {
     try {
       return Optional.ofNullable(
           jdbcTemplate.queryForObject(
@@ -72,7 +75,7 @@ public class UserRepositorySpringJdbc implements UserRepository {
   }
 
   @Override
-  public Optional<UserEntity> findByUsername(String username) {
+  public @NonNull Optional<UserEntity> findByUsername(@NonNull String username) {
     return Optional.ofNullable(
         jdbcTemplate.queryForObject(
             "SELECT BIN_TO_UUID(id) as id, username, firstname, lastname, avatar " +
@@ -83,6 +86,7 @@ public class UserRepositorySpringJdbc implements UserRepository {
     );
   }
 
+  @Nonnull
   @Override
   public List<UserEntity> findAll() {
     return jdbcTemplate.query(
@@ -92,7 +96,7 @@ public class UserRepositorySpringJdbc implements UserRepository {
   }
 
   @Override
-  public void remove(UserEntity user) {
+  public void remove(@NonNull UserEntity user) {
     jdbcTemplate.update("DELETE FROM user WHERE id = ?", user.getId());
   }
 }

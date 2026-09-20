@@ -3,6 +3,8 @@ package io.student.rcc.jupiter.extension;
 import io.student.rcc.model.TestData;
 import org.junit.jupiter.api.extension.*;
 
+import javax.annotation.Nullable;
+
 import static io.student.rcc.jupiter.extension.TestMethodContextExtension.context;
 
 public class TestDataExtension implements BeforeEachCallback, AfterEachCallback, ParameterResolver {
@@ -28,8 +30,8 @@ public class TestDataExtension implements BeforeEachCallback, AfterEachCallback,
   }
 
   @Override
-  public Object resolveParameter(ParameterContext parameterContext,
-                                 ExtensionContext extensionContext) throws ParameterResolutionException {
+  public @Nullable Object resolveParameter(ParameterContext parameterContext,
+                                           ExtensionContext extensionContext) throws ParameterResolutionException {
     return createdTestData();
   }
 

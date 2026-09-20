@@ -1,5 +1,7 @@
 package io.student.rcc.model;
 
+import javax.annotation.Nonnull;
+
 public record TestData(
     UserJson user,
     String userPassword,

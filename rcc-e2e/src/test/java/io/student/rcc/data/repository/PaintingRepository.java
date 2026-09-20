@@ -5,6 +5,7 @@ import io.student.rcc.data.repository.impl.PaintingRepositoryHibernate;
 import io.student.rcc.data.repository.impl.PaintingRepositoryJdbc;
 import io.student.rcc.data.repository.impl.PaintingRepositorySpringJdbc;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -19,17 +20,17 @@ public interface PaintingRepository {
     };
   }
 
-  PaintingEntity create(PaintingEntity painting);
+  @Nonnull PaintingEntity create(@Nonnull PaintingEntity painting);
 
-  PaintingEntity update(PaintingEntity painting);
+  @Nonnull PaintingEntity update(@Nonnull PaintingEntity painting);
 
-  Optional<PaintingEntity> findById(UUID id);
+  @Nonnull Optional<PaintingEntity> findById(@Nonnull UUID id);
 
-  Optional<PaintingEntity> findByTitle(String title);
+  @Nonnull Optional<PaintingEntity> findByTitle(@Nonnull String title);
 
-  Optional<PaintingEntity> findByDescription(String description);
+  @Nonnull Optional<PaintingEntity> findByDescription(@Nonnull String description);
 
-  List<PaintingEntity> findAllPainting();
+  @Nonnull List<PaintingEntity> findAllPainting();
 
-  void remove(PaintingEntity painting);
+  void remove(@Nonnull PaintingEntity painting);
 }

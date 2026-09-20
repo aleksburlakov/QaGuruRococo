@@ -2,21 +2,27 @@ package io.student.rcc.service;
 
 import io.student.rcc.model.UserJson;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 public interface UsersClient {
 
-  UserJson createUser(String username, String password);
+  @Nonnull
+  UserJson createUser(@Nonnull String username, @Nonnull String password);
 
-  UserJson updateUser(UserJson userJson);
+  @Nonnull
+  UserJson updateUser(@Nonnull UserJson userJson);
 
-  Optional<UserJson> findUserById(UUID id);
+  @Nonnull
+  Optional<UserJson> findUserById(@Nonnull UUID id);
 
-  Optional<UserJson> findUserByUsername(String username);
+  @Nonnull
+  Optional<UserJson> findUserByUsername(@Nonnull String username);
 
+  @Nonnull
   List<UserJson> findAll();
 
-  void removeUser(UserJson userJson);
+  void removeUser(@Nonnull UserJson userJson);
 }

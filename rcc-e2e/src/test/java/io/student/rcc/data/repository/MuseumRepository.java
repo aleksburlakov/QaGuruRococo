@@ -5,6 +5,7 @@ import io.student.rcc.data.repository.impl.MuseumRepositoryHibernate;
 import io.student.rcc.data.repository.impl.MuseumRepositoryJdbc;
 import io.student.rcc.data.repository.impl.MuseumRepositorySpringJdbc;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -18,17 +19,17 @@ public interface MuseumRepository {
     };
   }
 
-  MuseumEntity create(MuseumEntity museum);
+  @Nonnull MuseumEntity create(@Nonnull MuseumEntity museum);
 
-  MuseumEntity update(MuseumEntity museum);
+  @Nonnull MuseumEntity update(@Nonnull MuseumEntity museum);
 
-  Optional<MuseumEntity> findById(UUID id);
+  @Nonnull Optional<MuseumEntity> findById(@Nonnull UUID id);
 
-  Optional<MuseumEntity> findByTitle(String title);
+  @Nonnull Optional<MuseumEntity> findByTitle(@Nonnull String title);
 
-  List<MuseumEntity> findAll();
+  @Nonnull List<MuseumEntity> findAll();
 
-  void remove(MuseumEntity museum);
+  void remove(@Nonnull MuseumEntity museum);
 
   void removeAll();
 }

@@ -6,6 +6,7 @@ import io.student.rcc.data.entity.CountryEntity;
 import io.student.rcc.data.entity.MuseumEntity;
 import io.student.rcc.data.entity.PaintingEntity;
 import io.student.rcc.data.repository.PaintingRepository;
+import org.jspecify.annotations.NonNull;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,7 +25,7 @@ public class PaintingRepositoryJdbc implements PaintingRepository {
   private static final String URL = CFG.apiJdbcUrl();
 
   @Override
-  public PaintingEntity create(PaintingEntity painting) {
+  public @NonNull PaintingEntity create(@NonNull PaintingEntity painting) {
     try (PreparedStatement paintingPs = holder(URL).connection().prepareStatement(
         "INSERT INTO painting (id, title, description, artist_id, museum_id, content) " +
             "VALUES (UUID_TO_BIN(?), ?, ?, UUID_TO_BIN(?), UUID_TO_BIN(?), ?)")) {
@@ -49,7 +50,7 @@ public class PaintingRepositoryJdbc implements PaintingRepository {
   }
 
   @Override
-  public PaintingEntity update(PaintingEntity painting) {
+  public @NonNull PaintingEntity update(@NonNull PaintingEntity painting) {
     try (PreparedStatement ps = holder(URL).connection().prepareStatement(
         "UPDATE painting SET title = ?, description = ?, artist_id = UUID_TO_BIN(?), museum_id = UUID_TO_BIN(?), content = ? " +
             "WHERE id = UUID_TO_BIN(?)",
@@ -75,7 +76,7 @@ public class PaintingRepositoryJdbc implements PaintingRepository {
   }
 
   @Override
-  public Optional<PaintingEntity> findById(UUID id) {
+  public @NonNull Optional<PaintingEntity> findById(@NonNull UUID id) {
     try (PreparedStatement ps = holder(URL).connection().prepareStatement(
         "SELECT " +
             "BIN_TO_UUID(p.id) as painting_id, " +
@@ -114,7 +115,7 @@ public class PaintingRepositoryJdbc implements PaintingRepository {
   }
 
   @Override
-  public Optional<PaintingEntity> findByTitle(String title) {
+  public @NonNull Optional<PaintingEntity> findByTitle(@NonNull String title) {
     try (PreparedStatement ps = holder(URL).connection().prepareStatement(
         "SELECT " +
             "BIN_TO_UUID(p.id) as painting_id, " +
@@ -153,7 +154,7 @@ public class PaintingRepositoryJdbc implements PaintingRepository {
   }
 
   @Override
-  public Optional<PaintingEntity> findByDescription(String description) {
+  public @NonNull Optional<PaintingEntity> findByDescription(@NonNull String description) {
     try (PreparedStatement ps = holder(URL).connection().prepareStatement(
         "SELECT " +
             "BIN_TO_UUID(p.id) as painting_id, " +
@@ -192,7 +193,7 @@ public class PaintingRepositoryJdbc implements PaintingRepository {
   }
 
   @Override
-  public List<PaintingEntity> findAllPainting() {
+  public @NonNull List<PaintingEntity> findAllPainting() {
     try (PreparedStatement ps = holder(URL).connection().prepareStatement(
         "SELECT " +
             "BIN_TO_UUID(p.id) as painting_id, " +
@@ -228,7 +229,7 @@ public class PaintingRepositoryJdbc implements PaintingRepository {
   }
 
   @Override
-  public void remove(PaintingEntity painting) {
+  public void remove(@NonNull PaintingEntity painting) {
     try (PreparedStatement deletePs = holder(URL).connection().prepareStatement(
         "DELETE FROM painting WHERE id = UUID_TO_BIN(?)"
     )) {

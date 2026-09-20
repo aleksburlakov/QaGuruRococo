@@ -6,6 +6,7 @@ import io.student.rcc.data.repository.impl.AuthUserRepositoryHibernate;
 import io.student.rcc.data.repository.impl.AuthUserRepositoryJdbc;
 import io.student.rcc.data.repository.impl.AuthUserRepositorySpringJdbc;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -19,13 +20,13 @@ public interface AuthUserRepository {
     };
   }
 
-  AuthUserEntity create(AuthUserEntity user);
+  @Nonnull AuthUserEntity create(@Nonnull AuthUserEntity user);
 
-  Optional<AuthUserEntity> findById(UUID id);
+  @Nonnull Optional<AuthUserEntity> findById(@Nonnull UUID id);
 
-  List<AuthUserEntity> findAll();
+  @Nonnull List<AuthUserEntity> findAll();
 
-  Optional<AuthUserEntity> findByUsername(String username);
+  @Nonnull Optional<AuthUserEntity> findByUsername(@Nonnull String username);
 
-  void remove(AuthUserEntity user);
+  void remove(@Nonnull AuthUserEntity user);
 }
