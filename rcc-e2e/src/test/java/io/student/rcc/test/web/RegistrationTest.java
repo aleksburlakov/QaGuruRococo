@@ -1,18 +1,19 @@
 package io.student.rcc.test.web;
 
-import static io.student.rcc.utils.TestDataGenerator.generateRandomLogin;
-import static io.student.rcc.utils.TestDataGenerator.generateRandomPassword;
-
 import com.codeborne.selenide.Selenide;
 import io.student.rcc.config.Config;
 import io.student.rcc.jupiter.annotation.User;
+import io.student.rcc.jupiter.extension.BrowserExtension;
 import io.student.rcc.jupiter.extension.TestDataExtension;
 import io.student.rcc.model.UserJson;
 import io.student.rcc.page.MainPage;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-@ExtendWith(TestDataExtension.class)
+import static io.student.rcc.utils.TestDataGenerator.generateRandomLogin;
+import static io.student.rcc.utils.TestDataGenerator.generateRandomPassword;
+
+@ExtendWith({TestDataExtension.class, BrowserExtension.class})
 public class RegistrationTest {
 
   private static final Config CFG = Config.getInstance();

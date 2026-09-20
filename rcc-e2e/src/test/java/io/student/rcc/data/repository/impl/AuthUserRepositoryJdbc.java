@@ -7,11 +7,11 @@ import io.student.rcc.data.entity.auth.Authority;
 import io.student.rcc.data.entity.auth.AuthorityEntity;
 import io.student.rcc.data.mapper.AuthUserEntityRowMapper;
 import io.student.rcc.data.repository.AuthUserRepository;
+import org.jspecify.annotations.NonNull;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +25,7 @@ public class AuthUserRepositoryJdbc implements AuthUserRepository {
   private static final String URL = CFG.authJdbcUrl();
 
   @Override
-  public AuthUserEntity create(AuthUserEntity user) {
+  public @NonNull AuthUserEntity create(@NonNull AuthUserEntity user) {
     try (PreparedStatement userPs = holder(URL).connection().prepareStatement(
         "INSERT INTO user (id, username, password, enabled, account_non_expired, account_non_locked, credentials_non_expired) " +
             "VALUES (UUID_TO_BIN(?), ?, ?, ?, ?, ?, ?)");
@@ -58,7 +58,7 @@ public class AuthUserRepositoryJdbc implements AuthUserRepository {
   }
 
   @Override
-  public Optional<AuthUserEntity> findById(UUID id) {
+  public @NonNull Optional<AuthUserEntity> findById(@NonNull UUID id) {
     try (PreparedStatement ps = holder(URL).connection().prepareStatement(
         "select * from user u join authority a on u.id = a.user_id where u.id = ?"
     )) {
@@ -90,12 +90,12 @@ public class AuthUserRepositoryJdbc implements AuthUserRepository {
   }
 
   @Override
-  public List<AuthUserEntity> findAll() {
+  public @NonNull List<AuthUserEntity> findAll() {
     return List.of();
   }
 
   @Override
-  public Optional<AuthUserEntity> findByUsername(String username) {
+  public @NonNull Optional<AuthUserEntity> findByUsername(@NonNull String username) {
     try (PreparedStatement ps = holder(URL).connection().prepareStatement(
         "select * from user u join authority a on u.id = a.user_id where u.username = ?"
     )) {
@@ -127,7 +127,7 @@ public class AuthUserRepositoryJdbc implements AuthUserRepository {
   }
 
   @Override
-  public void remove(AuthUserEntity user) {
+  public void remove(@NonNull AuthUserEntity user) {
     try (PreparedStatement deleteAuthorityPs = holder(CFG.authJdbcUrl()).connection().prepareStatement(
         "DELETE FROM authority WHERE user_id = ?");
          PreparedStatement deleteUserPs = holder(CFG.authJdbcUrl()).connection().prepareStatement(

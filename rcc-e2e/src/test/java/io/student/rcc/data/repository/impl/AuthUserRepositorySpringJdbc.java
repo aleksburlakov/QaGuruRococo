@@ -7,11 +7,10 @@ import io.student.rcc.data.entity.auth.AuthorityEntity;
 import io.student.rcc.data.extractor.AuthUserExtractor;
 import io.student.rcc.data.repository.AuthUserRepository;
 import io.student.rcc.data.tpl.DataSources;
+import org.jspecify.annotations.NonNull;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -24,7 +23,7 @@ public class AuthUserRepositorySpringJdbc implements AuthUserRepository {
   private final JdbcTemplate jdbcTemplate = new JdbcTemplate(DataSources.dataSource(CFG.authJdbcUrl()));
 
   @Override
-  public AuthUserEntity create(AuthUserEntity user) {
+  public @NonNull AuthUserEntity create(@NonNull AuthUserEntity user) {
     UUID id = user.getId() != null ? user.getId() : UUID.randomUUID();
     jdbcTemplate.update(con -> {
       PreparedStatement ps = con.prepareStatement(
@@ -70,7 +69,7 @@ public class AuthUserRepositorySpringJdbc implements AuthUserRepository {
   }
 
   @Override
-  public Optional<AuthUserEntity> findById(UUID id) {
+  public @NonNull Optional<AuthUserEntity> findById(@NonNull UUID id) {
     try {
       return Optional.ofNullable(
           jdbcTemplate.query(
@@ -95,7 +94,7 @@ public class AuthUserRepositorySpringJdbc implements AuthUserRepository {
   }
 
   @Override
-  public List<AuthUserEntity> findAll() {
+  public @NonNull List<AuthUserEntity> findAll() {
     return jdbcTemplate.query(
         "SELECT BIN_TO_UUID(a.id) AS authority_id, " +
             "a.authority, " +
@@ -113,7 +112,7 @@ public class AuthUserRepositorySpringJdbc implements AuthUserRepository {
   }
 
   @Override
-  public Optional<AuthUserEntity> findByUsername(String username) {
+  public @NonNull Optional<AuthUserEntity> findByUsername(@NonNull String username) {
     try {
       return Optional.ofNullable(
           jdbcTemplate.query(
@@ -138,7 +137,7 @@ public class AuthUserRepositorySpringJdbc implements AuthUserRepository {
   }
 
   @Override
-  public void remove(AuthUserEntity user) {
+  public void remove(@NonNull AuthUserEntity user) {
     jdbcTemplate.update("DELETE FROM authority WHERE user_id = ?", user.getId());
     jdbcTemplate.update("DELETE FROM user WHERE id = ?", user.getId());
   }

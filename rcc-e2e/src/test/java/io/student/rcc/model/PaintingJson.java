@@ -2,6 +2,7 @@ package io.student.rcc.model;
 
 import io.qameta.allure.internal.shadowed.jackson.annotation.JsonProperty;
 import io.student.rcc.data.entity.PaintingEntity;
+import org.junit.jupiter.params.shadow.de.siegmar.fastcsv.util.Nullable;
 
 import java.util.Arrays;
 import java.util.UUID;
@@ -14,7 +15,8 @@ public record PaintingJson(
     @JsonProperty("museum") MuseumJson museum,
     @JsonProperty("content") String content) {
 
-  public static PaintingJson fromEntity(PaintingEntity entity) {
+  @Nullable
+  public static PaintingJson fromEntity(@Nullable PaintingEntity entity) {
     if (entity == null) {
       return null;
     }

@@ -9,6 +9,7 @@ import io.student.rcc.data.repository.AuthUserRepository;
 import io.student.rcc.data.repository.UserRepository;
 import io.student.rcc.data.tpl.XaTransactionTemplate;
 import io.student.rcc.model.UserJson;
+import org.jspecify.annotations.NonNull;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -32,7 +33,7 @@ public class UsersDbClient implements UsersClient {
   );
 
   @Override
-  public UserJson createUser(String username, String password) {
+  public @NonNull UserJson createUser(@NonNull String username, @NonNull String password) {
     return xaTransactionTemplate.execute(() -> {
           AuthUserEntity authUser = authUserEntity(username, password);
           authUserRepository.create(authUser);
@@ -44,7 +45,7 @@ public class UsersDbClient implements UsersClient {
   }
 
   @Override
-  public UserJson updateUser(UserJson userJson) {
+  public @NonNull UserJson updateUser(@NonNull UserJson userJson) {
     return xaTransactionTemplate.execute(() -> {
           UserEntity updatedUser = userdataUserRepository.update(UserEntity.fromJson(userJson));
           return UserJson.fromEntity(updatedUser);
@@ -53,24 +54,24 @@ public class UsersDbClient implements UsersClient {
   }
 
   @Override
-  public Optional<UserJson> findUserById(UUID id) {
+  public @NonNull Optional<UserJson> findUserById(@NonNull UUID id) {
     return userdataUserRepository.findById(id)
         .map(UserJson::fromEntity);
   }
 
   @Override
-  public Optional<UserJson> findUserByUsername(String username) {
+  public @NonNull Optional<UserJson> findUserByUsername(@NonNull String username) {
     return userdataUserRepository.findByUsername(username)
         .map(UserJson::fromEntity);
   }
 
   @Override
-  public List<UserJson> findAll() {
+  public @NonNull List<UserJson> findAll() {
     return userdataUserRepository.findAll().stream().map(UserJson::fromEntity).collect(Collectors.toList());
   }
 
   @Override
-  public void removeUser(UserJson userJson) {
+  public void removeUser(@NonNull UserJson userJson) {
     xaTransactionTemplate.execute(() -> {
       AuthUserEntity authUserEntity = authUserRepository.findByUsername(userJson.username()).get();
       authUserRepository.remove(authUserEntity);

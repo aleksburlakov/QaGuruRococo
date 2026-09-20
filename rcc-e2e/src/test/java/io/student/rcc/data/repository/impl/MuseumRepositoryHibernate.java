@@ -5,6 +5,7 @@ import io.student.rcc.data.entity.MuseumEntity;
 import io.student.rcc.data.repository.MuseumRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
+import org.jspecify.annotations.NonNull;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,26 +19,26 @@ public class MuseumRepositoryHibernate implements MuseumRepository {
   private final EntityManager entityManager = em(CFG.apiJdbcUrl());
 
   @Override
-  public MuseumEntity create(MuseumEntity museum) {
+  public @NonNull MuseumEntity create(@NonNull MuseumEntity museum) {
     entityManager.joinTransaction();
     entityManager.persist(museum);
     return museum;
   }
 
   @Override
-  public MuseumEntity update(MuseumEntity museum) {
+  public @NonNull MuseumEntity update(@NonNull MuseumEntity museum) {
     entityManager.joinTransaction();
     entityManager.merge(museum);
     return museum;
   }
 
   @Override
-  public Optional<MuseumEntity> findById(UUID id) {
+  public @NonNull Optional<MuseumEntity> findById(@NonNull UUID id) {
     return Optional.ofNullable(entityManager.find(MuseumEntity.class, id));
   }
 
   @Override
-  public Optional<MuseumEntity> findByTitle(String title) {
+  public @NonNull Optional<MuseumEntity> findByTitle(@NonNull String title) {
     try {
       return Optional.of(
           entityManager.createQuery("select m from MuseumEntity m where m.title = :title", MuseumEntity.class)
@@ -50,13 +51,13 @@ public class MuseumRepositoryHibernate implements MuseumRepository {
   }
 
   @Override
-  public List<MuseumEntity> findAll() {
+  public @NonNull List<MuseumEntity> findAll() {
     return entityManager.createQuery("select m from MuseumEntity m", MuseumEntity.class)
         .getResultList();
   }
 
   @Override
-  public void remove(MuseumEntity museumEntity) {
+  public void remove(@NonNull MuseumEntity museumEntity) {
     entityManager.joinTransaction();
     MuseumEntity deleteMuseum = entityManager.find(MuseumEntity.class, museumEntity.getId());
     if (deleteMuseum != null) {

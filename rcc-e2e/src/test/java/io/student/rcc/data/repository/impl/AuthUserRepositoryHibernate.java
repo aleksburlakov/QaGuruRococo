@@ -5,6 +5,7 @@ import io.student.rcc.data.entity.auth.AuthUserEntity;
 import io.student.rcc.data.repository.AuthUserRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
+import org.jspecify.annotations.NonNull;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,27 +19,27 @@ public class AuthUserRepositoryHibernate implements AuthUserRepository {
   private final EntityManager entityManager = em(CFG.authJdbcUrl());
 
   @Override
-  public AuthUserEntity create(AuthUserEntity user) {
+  public @NonNull AuthUserEntity create(@NonNull AuthUserEntity user) {
     entityManager.joinTransaction();
     entityManager.persist(user);
     return user;
   }
 
   @Override
-  public Optional<AuthUserEntity> findById(UUID id) {
+  public @NonNull Optional<AuthUserEntity> findById(@NonNull UUID id) {
     return Optional.ofNullable(
         entityManager.find(AuthUserEntity.class, id)
     );
   }
 
   @Override
-  public List<AuthUserEntity> findAll() {
+  public @NonNull List<AuthUserEntity> findAll() {
     return entityManager.createQuery("select u from AuthUserEntity", AuthUserEntity.class)
         .getResultList();
   }
 
   @Override
-  public Optional<AuthUserEntity> findByUsername(String username) {
+  public @NonNull Optional<AuthUserEntity> findByUsername(@NonNull String username) {
     try {
       return Optional.of(
           entityManager.createQuery("select u from AuthUserEntity u where u.username =: username", AuthUserEntity.class)
@@ -51,7 +52,7 @@ public class AuthUserRepositoryHibernate implements AuthUserRepository {
   }
 
   @Override
-  public void remove(AuthUserEntity user) {
+  public void remove(@NonNull AuthUserEntity user) {
     entityManager.joinTransaction();
     AuthUserEntity deletedAuthUser = entityManager.find(AuthUserEntity.class, user.getId());
     if (deletedAuthUser != null) {

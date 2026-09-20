@@ -5,6 +5,7 @@ import io.student.rcc.data.entity.PaintingEntity;
 import io.student.rcc.data.extractor.PaintingExtractor;
 import io.student.rcc.data.repository.PaintingRepository;
 import io.student.rcc.data.tpl.DataSources;
+import org.jspecify.annotations.NonNull;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -19,7 +20,7 @@ public class PaintingRepositorySpringJdbc implements PaintingRepository {
   private final JdbcTemplate jdbcTemplate = new JdbcTemplate(DataSources.dataSource(CFG.apiJdbcUrl()));
 
   @Override
-  public PaintingEntity create(PaintingEntity painting) {
+  public @NonNull PaintingEntity create(@NonNull PaintingEntity painting) {
     UUID id = painting.getId() != null ? painting.getId() : UUID.randomUUID();
     jdbcTemplate.update(
         "INSERT INTO painting (id, title, description, artist_id, museum_id, content) " +
@@ -37,7 +38,7 @@ public class PaintingRepositorySpringJdbc implements PaintingRepository {
   }
 
   @Override
-  public PaintingEntity update(PaintingEntity painting) {
+  public @NonNull PaintingEntity update(@NonNull PaintingEntity painting) {
     int updatedRows = jdbcTemplate.update(
         "UPDATE painting SET title = ?, description = ?, artist_id = UUID_TO_BIN(?), museum_id = UUID_TO_BIN(?), content = ? " +
             "WHERE id = UUID_TO_BIN(?)",
@@ -56,7 +57,7 @@ public class PaintingRepositorySpringJdbc implements PaintingRepository {
   }
 
   @Override
-  public Optional<PaintingEntity> findById(UUID id) {
+  public @NonNull Optional<PaintingEntity> findById(@NonNull UUID id) {
     try {
       return Optional.ofNullable(
           jdbcTemplate.query(
@@ -91,7 +92,7 @@ public class PaintingRepositorySpringJdbc implements PaintingRepository {
   }
 
   @Override
-  public Optional<PaintingEntity> findByTitle(String title) {
+  public @NonNull Optional<PaintingEntity> findByTitle(@NonNull String title) {
     try {
       return Optional.ofNullable(
           jdbcTemplate.query(
@@ -126,7 +127,7 @@ public class PaintingRepositorySpringJdbc implements PaintingRepository {
   }
 
   @Override
-  public Optional<PaintingEntity> findByDescription(String description) {
+  public @NonNull Optional<PaintingEntity> findByDescription(@NonNull String description) {
     try {
       return Optional.ofNullable(
           jdbcTemplate.query(
@@ -161,7 +162,7 @@ public class PaintingRepositorySpringJdbc implements PaintingRepository {
   }
 
   @Override
-  public List<PaintingEntity> findAllPainting() {
+  public @NonNull List<PaintingEntity> findAllPainting() {
     return jdbcTemplate.query(
         "SELECT " +
             "BIN_TO_UUID(p.id) as painting_id, " +
@@ -188,7 +189,7 @@ public class PaintingRepositorySpringJdbc implements PaintingRepository {
   }
 
   @Override
-  public void remove(PaintingEntity painting) {
+  public void remove(@NonNull PaintingEntity painting) {
     jdbcTemplate.update("DELETE FROM painting WHERE id = UUID_TO_BIN(?)", painting.getId().toString());
   }
 }

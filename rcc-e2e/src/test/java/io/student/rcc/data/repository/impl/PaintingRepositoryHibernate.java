@@ -5,6 +5,7 @@ import io.student.rcc.data.entity.PaintingEntity;
 import io.student.rcc.data.repository.PaintingRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
+import org.jspecify.annotations.NonNull;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,26 +18,26 @@ public class PaintingRepositoryHibernate implements PaintingRepository {
     private final EntityManager entityManager = em(CFG.apiJdbcUrl());
 
     @Override
-    public PaintingEntity create(PaintingEntity painting) {
+    public @NonNull PaintingEntity create(@NonNull PaintingEntity painting) {
         entityManager.joinTransaction();
         entityManager.persist(painting);
         return painting;
     }
 
     @Override
-    public PaintingEntity update(PaintingEntity painting) {
+    public @NonNull PaintingEntity update(@NonNull PaintingEntity painting) {
         entityManager.joinTransaction();
         entityManager.merge(painting);
         return painting;
     }
 
     @Override
-    public Optional<PaintingEntity> findById(UUID id) {
+    public @NonNull Optional<PaintingEntity> findById(@NonNull UUID id) {
         return Optional.ofNullable(entityManager.find(PaintingEntity.class, id));
     }
 
     @Override
-    public Optional<PaintingEntity> findByTitle(String title) {
+    public @NonNull Optional<PaintingEntity> findByTitle(@NonNull String title) {
         try {
             return Optional.of(
                 entityManager.createQuery("select p from PaintingEntity p where p.title = :title", PaintingEntity.class)
@@ -49,7 +50,7 @@ public class PaintingRepositoryHibernate implements PaintingRepository {
     }
 
     @Override
-    public Optional<PaintingEntity> findByDescription(String description) {
+    public @NonNull Optional<PaintingEntity> findByDescription(@NonNull String description) {
         try {
             return Optional.of(
                 entityManager.createQuery("select p from PaintingEntity p where p.description = :description", PaintingEntity.class)
@@ -62,13 +63,13 @@ public class PaintingRepositoryHibernate implements PaintingRepository {
     }
 
     @Override
-    public List<PaintingEntity> findAllPainting() {
+    public @NonNull List<PaintingEntity> findAllPainting() {
         return entityManager.createQuery("select p from PaintingEntity p", PaintingEntity.class)
             .getResultList();
     }
 
     @Override
-    public void remove(PaintingEntity painting) {
+    public void remove(@NonNull PaintingEntity painting) {
         entityManager.joinTransaction();
         PaintingEntity deletePainting = entityManager.find(PaintingEntity.class, painting.getId());
         if (deletePainting != null) {

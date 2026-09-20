@@ -3,6 +3,7 @@ package io.student.rcc.data.repository.impl;
 import io.student.rcc.config.Config;
 import io.student.rcc.data.entity.CountryEntity;
 import io.student.rcc.data.repository.CountryRepository;
+import org.jspecify.annotations.NonNull;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,7 +20,7 @@ public class CountryRepositoryJdbc implements CountryRepository {
   private static final String URL = CFG.apiJdbcUrl();
 
   @Override
-  public Optional<CountryEntity> findById(UUID id) {
+  public @NonNull Optional<CountryEntity> findById(@NonNull UUID id) {
     try (PreparedStatement ps = holder(URL).connection()
         .prepareStatement("SELECT BIN_TO_UUID(id) as country_id, name FROM country WHERE id = UUID_TO_BIN(?)")) {
       ps.setString(1, id.toString());
@@ -37,7 +38,7 @@ public class CountryRepositoryJdbc implements CountryRepository {
   }
 
   @Override
-  public Optional<CountryEntity> findByName(String name) {
+  public @NonNull Optional<CountryEntity> findByName(@NonNull String name) {
     try (PreparedStatement ps = holder(URL).connection()
         .prepareStatement("SELECT BIN_TO_UUID(id) as country_id, name FROM country WHERE name = ?")) {
       ps.setString(1, name);
@@ -55,7 +56,7 @@ public class CountryRepositoryJdbc implements CountryRepository {
   }
 
   @Override
-  public List<CountryEntity> findAll() {
+  public @NonNull List<CountryEntity> findAll() {
     List<CountryEntity> resultList = new ArrayList<>();
     try (PreparedStatement ps = holder(URL).connection()
         .prepareStatement("SELECT BIN_TO_UUID(id) as country_id, name FROM country")) {

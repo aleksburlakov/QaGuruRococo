@@ -5,6 +5,7 @@ import io.student.rcc.data.repository.impl.UserRepositoryHibernate;
 import io.student.rcc.data.repository.impl.UserRepositoryJdbc;
 import io.student.rcc.data.repository.impl.UserRepositorySpringJdbc;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -18,15 +19,15 @@ public interface UserRepository {
     };
   }
 
-  UserEntity create(UserEntity user);
+  @Nonnull UserEntity create(@Nonnull UserEntity user);
 
-  UserEntity update(UserEntity user);
+  @Nonnull UserEntity update(@Nonnull UserEntity user);
 
-  Optional<UserEntity> findById(UUID id);
+  @Nonnull Optional<UserEntity> findById(@Nonnull UUID id);
 
-  Optional<UserEntity> findByUsername(String username);
+  @Nonnull Optional<UserEntity> findByUsername(@Nonnull String username);
 
-  List<UserEntity> findAll();
+  @Nonnull List<UserEntity> findAll();
 
-  void remove(UserEntity user);
+  void remove(@Nonnull UserEntity user);
 }

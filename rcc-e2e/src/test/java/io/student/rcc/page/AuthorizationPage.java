@@ -1,10 +1,11 @@
 package io.student.rcc.page;
 
+import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
+
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
-
-import com.codeborne.selenide.SelenideElement;
 
 public class AuthorizationPage {
 
@@ -14,11 +15,13 @@ public class AuthorizationPage {
   private final SelenideElement registerLink = $x("//a[text()='Зарегистрироваться']");
   private final SelenideElement errorLoginMessage = $("[class*='login__error']");
 
+  @Step("Кликнуть по ссылке 'Зарегистрироваться'")
   public RegistrationPage goToRegistrationPage() {
     registerLink.click();
     return new RegistrationPage();
   }
 
+  @Step("В поле 'Имя пользователя' ввести '{username}', в поле 'Пароль' значение '{password}' и нажать кнопку 'Войти'")
   public MainPage login(String username, String password) {
     usernameInput.setValue(username);
     passwordInput.setValue(password);
@@ -26,6 +29,7 @@ public class AuthorizationPage {
     return new MainPage();
   }
 
+  @Step("В поле 'Имя пользователя' ввести '{username}', в поле 'Пароль' значение '{password}' и нажать кнопку 'Войти'")
   public AuthorizationPage unSuccessLogin(String username, String password) {
     usernameInput.setValue(username);
     passwordInput.setValue(password);
@@ -33,6 +37,7 @@ public class AuthorizationPage {
     return this;
   }
 
+  @Step("Проверить текст в ошибки на соответствие значению '{loginErrorMessageText}'")
   public AuthorizationPage checkLoginErrorMessageText(String loginErrorMessageText) {
     errorLoginMessage.shouldHave(text(loginErrorMessageText));
     return this;

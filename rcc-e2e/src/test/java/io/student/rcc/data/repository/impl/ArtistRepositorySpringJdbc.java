@@ -5,6 +5,7 @@ import io.student.rcc.data.entity.ArtistEntity;
 import io.student.rcc.data.mapper.ArtistEntityRowMapper;
 import io.student.rcc.data.repository.ArtistRepository;
 import io.student.rcc.data.tpl.DataSources;
+import org.jspecify.annotations.NonNull;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -18,7 +19,7 @@ public class ArtistRepositorySpringJdbc implements ArtistRepository {
   private final JdbcTemplate jdbcTemplate = new JdbcTemplate(DataSources.dataSource(CFG.apiJdbcUrl()));
 
   @Override
-  public ArtistEntity create(ArtistEntity artist) {
+  public @NonNull ArtistEntity create(@NonNull ArtistEntity artist) {
     UUID id = artist.getId() != null ? artist.getId() : UUID.randomUUID();
     jdbcTemplate.update(
         "INSERT INTO artist (id, name, biography, photo) " +
@@ -34,7 +35,7 @@ public class ArtistRepositorySpringJdbc implements ArtistRepository {
   }
 
   @Override
-  public ArtistEntity update(ArtistEntity artist) {
+  public @NonNull ArtistEntity update(@NonNull ArtistEntity artist) {
     jdbcTemplate.update(
         "UPDATE artist SET name = ?, biography = ?, photo = ? " +
             "WHERE id = UUID_TO_BIN(?)",
@@ -47,7 +48,7 @@ public class ArtistRepositorySpringJdbc implements ArtistRepository {
   }
 
   @Override
-  public Optional<ArtistEntity> findById(UUID id) {
+  public @NonNull Optional<ArtistEntity> findById(@NonNull UUID id) {
     try {
       return Optional.ofNullable(
           jdbcTemplate.queryForObject(
@@ -63,7 +64,7 @@ public class ArtistRepositorySpringJdbc implements ArtistRepository {
   }
 
   @Override
-  public Optional<ArtistEntity> findByName(String name) {
+  public @NonNull Optional<ArtistEntity> findByName(@NonNull String name) {
     try {
       return Optional.ofNullable(
           jdbcTemplate.queryForObject(
@@ -79,7 +80,7 @@ public class ArtistRepositorySpringJdbc implements ArtistRepository {
   }
 
   @Override
-  public List<ArtistEntity> findAll() {
+  public @NonNull List<ArtistEntity> findAll() {
     return jdbcTemplate.query(
         "SELECT BIN_TO_UUID(id) as id, name, biography, photo FROM artist",
         ArtistEntityRowMapper.instance
@@ -87,7 +88,7 @@ public class ArtistRepositorySpringJdbc implements ArtistRepository {
   }
 
   @Override
-  public void remove(ArtistEntity artistEntity) {
+  public void remove(@NonNull ArtistEntity artistEntity) {
     jdbcTemplate.update("DELETE FROM artist WHERE id = UUID_TO_BIN(?)", artistEntity.getId().toString());
   }
 

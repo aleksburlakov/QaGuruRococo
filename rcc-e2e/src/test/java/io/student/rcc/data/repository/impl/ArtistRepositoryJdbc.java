@@ -3,6 +3,7 @@ package io.student.rcc.data.repository.impl;
 import io.student.rcc.config.Config;
 import io.student.rcc.data.entity.ArtistEntity;
 import io.student.rcc.data.repository.ArtistRepository;
+import org.jspecify.annotations.NonNull;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,7 +21,7 @@ public class ArtistRepositoryJdbc implements ArtistRepository {
   private static final String URL = CFG.apiJdbcUrl();
 
   @Override
-  public ArtistEntity create(ArtistEntity artist) {
+  public @NonNull ArtistEntity create(@NonNull ArtistEntity artist) {
     try (PreparedStatement ps = holder(URL).connection().prepareStatement(
         "INSERT INTO artist (id, name, biography, photo) " +
             "VALUES (UUID_TO_BIN(?), ?, ?, ?)")) {
@@ -39,7 +40,7 @@ public class ArtistRepositoryJdbc implements ArtistRepository {
   }
 
   @Override
-  public ArtistEntity update(ArtistEntity artist) {
+  public @NonNull ArtistEntity update(@NonNull ArtistEntity artist) {
     try (PreparedStatement ps = holder(URL).connection().prepareStatement(
         "UPDATE artist SET name = ?, biography = ?, photo = ? " +
             "WHERE id = UUID_TO_BIN(?)")) {
@@ -60,7 +61,7 @@ public class ArtistRepositoryJdbc implements ArtistRepository {
   }
 
   @Override
-  public Optional<ArtistEntity> findById(UUID id) {
+  public @NonNull Optional<ArtistEntity> findById(@NonNull UUID id) {
     try (PreparedStatement ps = holder(URL).connection()
         .prepareStatement("SELECT BIN_TO_UUID(id) as id, name, biography, photo " +
             "FROM artist WHERE id = UUID_TO_BIN(?)")) {
@@ -79,7 +80,7 @@ public class ArtistRepositoryJdbc implements ArtistRepository {
   }
 
   @Override
-  public Optional<ArtistEntity> findByName(String name) {
+  public @NonNull Optional<ArtistEntity> findByName(@NonNull String name) {
     try (PreparedStatement ps = holder(URL).connection()
         .prepareStatement("SELECT BIN_TO_UUID(id) as id, name, biography, photo " +
             "FROM artist WHERE name = ?")) {
@@ -98,7 +99,7 @@ public class ArtistRepositoryJdbc implements ArtistRepository {
   }
 
   @Override
-  public List<ArtistEntity> findAll() {
+  public @NonNull List<ArtistEntity> findAll() {
     List<ArtistEntity> resultList = new ArrayList<>();
     try (PreparedStatement ps = holder(URL).connection()
         .prepareStatement("SELECT BIN_TO_UUID(id) as id, name, biography, photo FROM artist")) {
@@ -115,7 +116,7 @@ public class ArtistRepositoryJdbc implements ArtistRepository {
   }
 
   @Override
-  public void remove(ArtistEntity artistEntity) {
+  public void remove(@NonNull ArtistEntity artistEntity) {
     try (PreparedStatement ps = holder(URL).connection()
         .prepareStatement("DELETE FROM artist WHERE id = UUID_TO_BIN(?)")) {
       ps.setString(1, artistEntity.getId().toString());

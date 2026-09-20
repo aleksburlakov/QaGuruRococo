@@ -3,6 +3,7 @@ package io.student.rcc.data.mapper;
 import io.student.rcc.data.entity.ArtistEntity;
 import org.springframework.jdbc.core.RowMapper;
 
+import javax.annotation.Nonnull;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
@@ -15,7 +16,7 @@ public class ArtistEntityRowMapper implements RowMapper<ArtistEntity> {
   }
 
   @Override
-  public ArtistEntity mapRow(ResultSet rs, int rowNum) throws SQLException {
+  public ArtistEntity mapRow(@Nonnull ResultSet rs, int rowNum) throws SQLException {
     ArtistEntity artistEntity = new ArtistEntity();
     artistEntity.setId(rs.getObject("id", UUID.class));
     artistEntity.setName(rs.getString("name"));

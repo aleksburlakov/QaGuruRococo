@@ -5,6 +5,7 @@ import io.student.rcc.data.entity.CountryEntity;
 import io.student.rcc.data.mapper.CountryEntityRowMapper;
 import io.student.rcc.data.repository.CountryRepository;
 import io.student.rcc.data.tpl.DataSources;
+import org.jspecify.annotations.NonNull;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -18,7 +19,7 @@ public class CountryRepositorySpringJdbc implements CountryRepository {
   private final JdbcTemplate jdbcTemplate = new JdbcTemplate(DataSources.dataSource(CFG.apiJdbcUrl()));
 
   @Override
-  public Optional<CountryEntity> findById(UUID id) {
+  public @NonNull Optional<CountryEntity> findById(@NonNull UUID id) {
     try {
       return Optional.ofNullable(
           jdbcTemplate.queryForObject(
@@ -33,7 +34,7 @@ public class CountryRepositorySpringJdbc implements CountryRepository {
   }
 
   @Override
-  public Optional<CountryEntity> findByName(String name) {
+  public @NonNull Optional<CountryEntity> findByName(@NonNull String name) {
     try {
       return Optional.ofNullable(
           jdbcTemplate.queryForObject(
@@ -48,7 +49,7 @@ public class CountryRepositorySpringJdbc implements CountryRepository {
   }
 
   @Override
-  public List<CountryEntity> findAll() {
+  public @NonNull List<CountryEntity> findAll() {
     return jdbcTemplate.query(
         "SELECT BIN_TO_UUID(id) as id, name FROM country",
         CountryEntityRowMapper.instance

@@ -1,5 +1,6 @@
 package io.student.rcc.service;
 
+import io.qameta.allure.Step;
 import io.student.rcc.config.Config;
 import io.student.rcc.data.entity.CountryEntity;
 import io.student.rcc.data.entity.MuseumEntity;
@@ -7,7 +8,9 @@ import io.student.rcc.data.repository.CountryRepository;
 import io.student.rcc.data.repository.MuseumRepository;
 import io.student.rcc.data.tpl.XaTransactionTemplate;
 import io.student.rcc.model.MuseumJson;
+import org.jspecify.annotations.NonNull;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -24,13 +27,15 @@ public class MuseumDbClient implements MuseumClient {
       CFG.apiJdbcUrl()
   );
 
-  public MuseumJson createMuseum(MuseumJson museum) {
+  @Override
+  @Step("Создать музей в БД")
+  public @NonNull MuseumJson createMuseum(@NonNull MuseumJson museum) {
     return xaTransactionTemplate.execute(() -> {
       MuseumEntity museumEntity = MuseumEntity.fromJson(museum);
       if (museumEntity.getCountry().getName() != null) {
-        CountryEntity countryEntity = countryRepository.findByName(museumEntity.getCountry().getName()).get();
-        if (countryEntity != null) {
-          museumEntity.setCountry(countryEntity);
+        Optional<CountryEntity> countryEntity = countryRepository.findByName(museumEntity.getCountry().getName());
+        if (countryEntity.isPresent()) {
+          museumEntity.setCountry(countryEntity.get());
           museumRepository.create(museumEntity);
         } else {
           throw new RuntimeException("Country with name = " + museumEntity.getCountry().getName() + " was not found");
@@ -43,13 +48,14 @@ public class MuseumDbClient implements MuseumClient {
   }
 
   @Override
-  public MuseumJson updateMuseum(MuseumJson museum) {
+  @Step("Обновить музей в БД")
+  public @NonNull MuseumJson updateMuseum(@NonNull MuseumJson museum) {
     return xaTransactionTemplate.execute(() -> {
       MuseumEntity museumEntity = MuseumEntity.fromJson(museum);
       if (museumEntity.getCountry().getName() != null) {
-        CountryEntity countryEntity = countryRepository.findByName(museumEntity.getCountry().getName()).get();
-        if (countryEntity != null) {
-          museumEntity.setCountry(countryEntity);
+        Optional<CountryEntity> countryEntity = countryRepository.findByName(museumEntity.getCountry().getName());
+        if (countryEntity.isPresent()) {
+          museumEntity.setCountry(countryEntity.get());
           museumEntity = museumRepository.update(MuseumEntity.fromJson(museum));
         } else {
           throw new RuntimeException("Country with name = " + museumEntity.getCountry().getName() + " was not found");
@@ -62,24 +68,28 @@ public class MuseumDbClient implements MuseumClient {
   }
 
   @Override
-  public Optional<MuseumJson> findMuseumById(UUID id) {
+  @Step("Найти музей в БД по id")
+  public @NonNull Optional<MuseumJson> findMuseumById(@NonNull UUID id) {
     return museumRepository.findById(id).map(MuseumJson::fromEntity);
   }
 
   @Override
-  public Optional<MuseumJson> findMuseumByTitle(String title) {
+  @Step("Найти музей в БД по названию")
+  public @NonNull Optional<MuseumJson> findMuseumByTitle(@NonNull String title) {
     return museumRepository.findByTitle(title).map(MuseumJson::fromEntity);
   }
 
   @Override
-  public List<MuseumJson> findAllMuseums() {
+  @Step("Найти все музеи в БД")
+  public @NonNull List<MuseumJson> findAllMuseums() {
     return museumRepository.findAll().stream()
         .map(MuseumJson::fromEntity)
         .collect(Collectors.toList());
   }
 
   @Override
-  public void removeMuseum(MuseumJson museumJson) {
+  @Step("Удалить музей в БД")
+  public void removeMuseum(@NonNull MuseumJson museumJson) {
     xaTransactionTemplate.execute(() -> {
       museumRepository.remove(MuseumEntity.fromJson(museumJson));
       return null;
@@ -87,6 +97,7 @@ public class MuseumDbClient implements MuseumClient {
   }
 
   @Override
+  @Step("Удалить все музеи в БД")
   public void removeAllMuseums() {
     xaTransactionTemplate.execute(() -> {
       museumRepository.removeAll();

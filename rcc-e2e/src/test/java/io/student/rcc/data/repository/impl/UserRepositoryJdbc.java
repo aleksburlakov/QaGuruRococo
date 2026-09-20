@@ -3,7 +3,9 @@ package io.student.rcc.data.repository.impl;
 import io.student.rcc.config.Config;
 import io.student.rcc.data.entity.UserEntity;
 import io.student.rcc.data.repository.UserRepository;
+import org.jspecify.annotations.NonNull;
 
+import javax.annotation.Nonnull;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,7 +22,7 @@ public class UserRepositoryJdbc implements UserRepository {
   private static final String URL = CFG.apiJdbcUrl();
 
   @Override
-  public UserEntity create(UserEntity user) {
+  public @NonNull UserEntity create(@NonNull UserEntity user) {
     try (PreparedStatement ps = holder(URL).connection().prepareStatement(
             "INSERT INTO user (id, username, firstname, lastname, avatar) VALUES (UUID_TO_BIN(?), ?, ?, ?, ?)")) {
       UUID id = user.getId() != null ? user.getId() : UUID.randomUUID();
@@ -38,7 +40,7 @@ public class UserRepositoryJdbc implements UserRepository {
   }
 
   @Override
-  public UserEntity update(UserEntity user) {
+  public @NonNull UserEntity update(@NonNull UserEntity user) {
     try (PreparedStatement ps = holder(URL).connection().prepareStatement(
             "UPDATE user SET username = ?, firstname = ?, lastname = ?, avatar = ? " +
                     "WHERE id = UUID_TO_BIN(?)")) {
@@ -58,8 +60,9 @@ public class UserRepositoryJdbc implements UserRepository {
     }
   }
 
+  @Nonnull
   @Override
-  public Optional<UserEntity> findById(UUID id) {
+  public Optional<UserEntity> findById(@NonNull UUID id) {
     try (PreparedStatement ps = holder(URL).connection()
         .prepareStatement("SELECT BIN_TO_UUID(id) as id, username, firstname, lastname, avatar " +
             "FROM user WHERE id = UUID_TO_BIN(?)")) {
@@ -78,7 +81,7 @@ public class UserRepositoryJdbc implements UserRepository {
   }
 
   @Override
-  public Optional<UserEntity> findByUsername(String username) {
+  public @NonNull Optional<UserEntity> findByUsername(@NonNull String username) {
     try (PreparedStatement ps = holder(URL).connection()
         .prepareStatement("SELECT BIN_TO_UUID(id) as id, username, firstname, lastname, avatar " +
             "FROM user WHERE username = ?")) {
@@ -96,6 +99,7 @@ public class UserRepositoryJdbc implements UserRepository {
     }
   }
 
+  @Nonnull
   @Override
   public List<UserEntity> findAll() {
     List<UserEntity> resultList = new ArrayList<UserEntity>();
@@ -115,7 +119,7 @@ public class UserRepositoryJdbc implements UserRepository {
   }
 
   @Override
-  public void remove(UserEntity user) {
+  public void remove(@NonNull UserEntity user) {
     try (PreparedStatement deleteUserPs = holder(URL).connection().prepareStatement(
         "DELETE FROM user WHERE id = ?"
     )) {

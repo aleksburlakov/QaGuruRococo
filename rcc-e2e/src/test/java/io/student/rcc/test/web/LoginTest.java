@@ -3,6 +3,7 @@ package io.student.rcc.test.web;
 import com.codeborne.selenide.Selenide;
 import io.student.rcc.config.Config;
 import io.student.rcc.jupiter.annotation.User;
+import io.student.rcc.jupiter.extension.BrowserExtension;
 import io.student.rcc.jupiter.extension.TestDataExtension;
 import io.student.rcc.model.TestData;
 import io.student.rcc.model.UserJson;
@@ -11,7 +12,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-@ExtendWith(TestDataExtension.class)
+@ExtendWith({TestDataExtension.class, BrowserExtension.class})
 public class LoginTest {
 
   private static final Config CFG = Config.getInstance();

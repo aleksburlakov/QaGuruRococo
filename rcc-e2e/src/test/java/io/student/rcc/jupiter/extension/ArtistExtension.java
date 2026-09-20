@@ -6,6 +6,7 @@ import io.student.rcc.model.TestData;
 import io.student.rcc.service.ArtistClient;
 import io.student.rcc.service.ArtistDbClient;
 import io.student.rcc.utils.TestDataGenerator;
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.extension.*;
 import org.junit.platform.commons.support.AnnotationSupport;
@@ -44,19 +45,19 @@ public class ArtistExtension implements BeforeEachCallback, AfterEachCallback, P
   }
 
   @Override
-  public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext)
+  public boolean supportsParameter(ParameterContext parameterContext, @NonNull ExtensionContext extensionContext)
       throws ParameterResolutionException {
     return parameterContext.getParameter().getType().equals(Artist.class);
   }
 
   @Override
-  public @Nullable Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext)
+  public @Nullable Object resolveParameter(@NonNull ParameterContext parameterContext, ExtensionContext extensionContext)
       throws ParameterResolutionException {
     return extensionContext.getStore(NAMESPACE).get(extensionContext.getUniqueId(), ArtistJson.class);
   }
 
   @Override
-  public void afterEach(ExtensionContext context) throws Exception {
+  public void afterEach(@NonNull ExtensionContext context) throws Exception {
     TestData createdTestData = TestDataExtension.createdTestData();
     ArtistJson createdArtist = createdTestData.artist();
     if (createdArtist != null) {

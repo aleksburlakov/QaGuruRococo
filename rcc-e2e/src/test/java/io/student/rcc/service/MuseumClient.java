@@ -2,23 +2,29 @@ package io.student.rcc.service;
 
 import io.student.rcc.model.MuseumJson;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 public interface MuseumClient {
 
-  MuseumJson createMuseum(MuseumJson museum);
+  @Nonnull
+  MuseumJson createMuseum(@Nonnull MuseumJson museum);
 
-  MuseumJson updateMuseum(MuseumJson museum);
+  @Nonnull
+  MuseumJson updateMuseum(@Nonnull MuseumJson museum);
 
-  Optional<MuseumJson> findMuseumById(UUID id);
+  @Nonnull
+  Optional<MuseumJson> findMuseumById(@Nonnull UUID id);
 
-  Optional<MuseumJson> findMuseumByTitle(String title);
+  @Nonnull
+  Optional<MuseumJson> findMuseumByTitle(@Nonnull String title);
 
+  @Nonnull
   List<MuseumJson> findAllMuseums();
 
-  void removeMuseum(MuseumJson museum);
+  void removeMuseum(@Nonnull MuseumJson museum);
 
   void removeAllMuseums();
 

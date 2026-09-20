@@ -2,6 +2,7 @@ package io.student.rcc.model;
 
 import io.qameta.allure.internal.shadowed.jackson.annotation.JsonProperty;
 import io.student.rcc.data.entity.UserEntity;
+import org.junit.jupiter.params.shadow.de.siegmar.fastcsv.util.Nullable;
 
 import java.util.Base64;
 import java.util.UUID;
@@ -13,7 +14,11 @@ public record UserJson(
         @JsonProperty("lastname") String lastname,
         @JsonProperty("avatar") String avatar
 ) {
-    public static UserJson fromEntity(UserEntity entity) {
+    @Nullable
+    public static UserJson fromEntity(@Nullable UserEntity entity) {
+        if (entity == null) {
+            return null;
+        }
         return new UserJson(
                 entity.getId(),
                 entity.getUsername(),

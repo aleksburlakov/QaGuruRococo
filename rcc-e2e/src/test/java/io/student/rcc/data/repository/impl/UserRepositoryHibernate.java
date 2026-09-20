@@ -5,7 +5,9 @@ import io.student.rcc.data.entity.UserEntity;
 import io.student.rcc.data.repository.UserRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
+import org.jspecify.annotations.NonNull;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -18,21 +20,22 @@ public class UserRepositoryHibernate implements UserRepository {
   private final EntityManager entityManager = em(CFG.apiJdbcUrl());
 
   @Override
-  public UserEntity create(UserEntity user) {
+  public @NonNull UserEntity create(@NonNull UserEntity user) {
     entityManager.joinTransaction();
     entityManager.persist(user);
     return user;
   }
 
+  @Nonnull
   @Override
-  public Optional<UserEntity> findById(UUID id) {
+  public Optional<UserEntity> findById(@NonNull UUID id) {
     return Optional.ofNullable(
         entityManager.find(UserEntity.class, id)
     );
   }
 
   @Override
-  public Optional<UserEntity> findByUsername(String username) {
+  public @NonNull Optional<UserEntity> findByUsername(@NonNull String username) {
     try {
       return Optional.of(
           entityManager.createQuery("select u from UserEntity u where u.username =: username", UserEntity.class)
@@ -44,6 +47,7 @@ public class UserRepositoryHibernate implements UserRepository {
     }
   }
 
+  @Nonnull
   @Override
   public List<UserEntity> findAll() {
     return entityManager.createQuery("select u from UserEntity u", UserEntity.class)
@@ -51,7 +55,7 @@ public class UserRepositoryHibernate implements UserRepository {
   }
 
   @Override
-  public void remove(UserEntity user) {
+  public void remove(@NonNull UserEntity user) {
     entityManager.joinTransaction();
     UserEntity deletedUser = entityManager.find(UserEntity.class, user.getId());
     if (deletedUser != null) {
@@ -60,7 +64,7 @@ public class UserRepositoryHibernate implements UserRepository {
   }
 
   @Override
-  public UserEntity update(UserEntity user) {
+  public @NonNull UserEntity update(@NonNull UserEntity user) {
     return entityManager.merge(user);
   }
 }
