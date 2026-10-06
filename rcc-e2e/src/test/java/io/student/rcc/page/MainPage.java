@@ -8,7 +8,7 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
 
-public class MainPage {
+public class MainPage extends BasePage<MainPage> {
 
   private final SelenideElement enterButton = $x("//button[text()='Войти']");
   private final SelenideElement addPaintingLink = $("a[href='/painting']");

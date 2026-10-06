@@ -1,5 +1,6 @@
-package io.student.rcc.service;
+package io.student.rcc.service.impl;
 
+import io.qameta.allure.Step;
 import io.student.rcc.config.Config;
 import io.student.rcc.data.entity.UserEntity;
 import io.student.rcc.data.entity.auth.AuthUserEntity;
@@ -9,6 +10,7 @@ import io.student.rcc.data.repository.AuthUserRepository;
 import io.student.rcc.data.repository.UserRepository;
 import io.student.rcc.data.tpl.XaTransactionTemplate;
 import io.student.rcc.model.UserJson;
+import io.student.rcc.service.UsersClient;
 import org.jspecify.annotations.NonNull;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -33,6 +35,7 @@ public class UsersDbClient implements UsersClient {
   );
 
   @Override
+  @Step("Создать пользователя в БД с username = {username} и password = {password}")
   public @NonNull UserJson createUser(@NonNull String username, @NonNull String password) {
     return xaTransactionTemplate.execute(() -> {
           AuthUserEntity authUser = authUserEntity(username, password);

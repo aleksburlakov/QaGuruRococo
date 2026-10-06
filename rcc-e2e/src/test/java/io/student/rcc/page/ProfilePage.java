@@ -7,7 +7,7 @@ import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
 
-public class ProfilePage {
+public class ProfilePage extends BasePage<ProfilePage> {
 
   private final SelenideElement profilePageHeader = $x("//header[text()='Профиль']");
   private final SelenideElement nameInput = $("input[name=\"firstname\"]");

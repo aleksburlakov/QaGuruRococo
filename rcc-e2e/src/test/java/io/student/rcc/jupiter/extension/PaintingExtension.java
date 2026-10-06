@@ -6,7 +6,6 @@ import io.student.rcc.model.MuseumJson;
 import io.student.rcc.model.PaintingJson;
 import io.student.rcc.model.TestData;
 import io.student.rcc.service.PaintingClient;
-import io.student.rcc.service.PaintingDbClient;
 import io.student.rcc.utils.TestDataGenerator;
 import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.extension.*;
@@ -15,7 +14,7 @@ import org.junit.platform.commons.support.AnnotationSupport;
 public class PaintingExtension implements BeforeEachCallback, AfterEachCallback, ParameterResolver {
 
   public static final ExtensionContext.Namespace NAMESPACE = ExtensionContext.Namespace.create(PaintingExtension.class);
-  private final PaintingClient paintingClient = new PaintingDbClient();
+  private final PaintingClient paintingClient = PaintingClient.getInstance();
 
   @Override
   public void beforeEach(ExtensionContext context) throws Exception {

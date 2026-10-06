@@ -1,5 +1,6 @@
 plugins {
     id 'io.qameta.allure' version '3.0.1'
+    id 'io.qameta.allure-adapter' version '3.0.1'
 }
 
 group = 'io.student'
@@ -10,8 +11,10 @@ def aspectJVersion = '1.9.22'
 def atomikosVersion = '6.0.0'
 def hibernateVersion = '6.6.13.Final'
 def junitVersion = '6.0.2'
+def okhttp3Version = '5.3.2'
 def selenideVersion = '7.16.1'
 def fakerVersion = '1.0.2'
+def retrofitVersion = '3.0.0'
 def snakeYamlVersion = '1.33'
 def springJdbcVersion = "7.0.5"
 def mySqlConnectorVersion = "8.0.33"
@@ -56,6 +59,30 @@ dependencies {
 
     //Utils
     testImplementation 'com.github.h-thurow:simple-jndi:0.24.0'
+
+    // REST
+    testImplementation "com.squareup.okhttp3:logging-interceptor:${okhttp3Version}"
+    testImplementation "com.squareup.okhttp3:okhttp-urlconnection:${okhttp3Version}"
+    testImplementation "com.squareup.okhttp3:okhttp:${okhttp3Version}"
+    testImplementation("com.squareup.retrofit2:retrofit:${retrofitVersion}") {
+        exclude group: "com.squareup.okhttp3"
+    }
+    testImplementation("com.squareup.retrofit2:converter-jackson:${retrofitVersion}") {
+        exclude group: "com.squareup.okhttp3"
+    }
+
+    // Allure
+    agent "org.aspectj:aspectjweaver:${aspectJVersion}"
+    testImplementation platform("io.qameta.allure:allure-bom:$allureVersion")
+    testImplementation "io.qameta.allure:allure-attachments"
+    testImplementation "io.qameta.allure:allure-okhttp3"
+    testImplementation "io.qameta.allure:allure-grpc"
+    testImplementation("io.qameta.allure:allure-junit5") {
+        exclude group: "org.junit.jupiter"
+    }
+    testImplementation("io.qameta.allure:allure-selenide") {
+        exclude group: 'com.codeborne'
+    }
 }
 
 allure {

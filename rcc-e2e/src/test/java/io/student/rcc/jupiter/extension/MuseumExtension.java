@@ -1,15 +1,10 @@
 package io.student.rcc.jupiter.extension;
 
-import io.student.rcc.jupiter.annotation.Artist;
 import io.student.rcc.jupiter.annotation.Museum;
-import io.student.rcc.model.ArtistJson;
 import io.student.rcc.model.CountryJson;
 import io.student.rcc.model.MuseumJson;
 import io.student.rcc.model.TestData;
-import io.student.rcc.service.ArtistClient;
-import io.student.rcc.service.ArtistDbClient;
 import io.student.rcc.service.MuseumClient;
-import io.student.rcc.service.MuseumDbClient;
 import io.student.rcc.utils.TestDataGenerator;
 import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.extension.*;
@@ -18,7 +13,7 @@ import org.junit.platform.commons.support.AnnotationSupport;
 public class MuseumExtension implements BeforeEachCallback, AfterEachCallback, ParameterResolver {
 
   public static final ExtensionContext.Namespace NAMESPACE = ExtensionContext.Namespace.create(MuseumExtension.class);
-  private final MuseumClient museumClient = new MuseumDbClient();
+  private final MuseumClient museumClient = MuseumClient.getInstance();
 
   @Override
   public void beforeEach(ExtensionContext context) throws Exception {

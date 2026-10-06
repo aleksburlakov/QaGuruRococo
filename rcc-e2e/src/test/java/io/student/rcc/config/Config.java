@@ -12,7 +12,13 @@ public interface Config {
   String frontUrl();
 
   @Nonnull
+  String authUrl();
+
+  @Nonnull
   String authJdbcUrl();
+
+  @Nonnull
+  String apiUrl();
 
   @Nonnull
   String apiJdbcUrl();

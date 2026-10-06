@@ -6,14 +6,12 @@ import io.qameta.allure.Step;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
 
-public class MuseumCardPage {
+public class MuseumCardPage extends BasePage<MuseumCardPage> {
 
   private final SelenideElement museumCardHeader = $("header[class*='card-header']");
   private final SelenideElement museumCardGeoLocation = $("header[class*='card-header'] + div");
   private final SelenideElement museumCardDescription = $("header[class*='card-header'] + div + div + div");
   private final SelenideElement editButton = $("button[data-testid='edit-museum']");
-  private final SelenideElement popup = $("div.text-base");
-
 
   @Step("Проверить, что открыта карточка музея '{museumTitle}'")
   public MuseumCardPage checkMuseumCardWithTitleOpened(String museumTitle) {
@@ -42,13 +40,6 @@ public class MuseumCardPage {
   @Step("Проверить описание музея на соответствие значению '{description}'")
   public MuseumCardPage checkMuseumCardDescription(String description) {
     museumCardDescription.shouldBe(text(description));
-    return this;
-  }
-
-  // Todo вынести в BasePage в ДЗ 7.2
-  @Step("Проверить текст всплавающего сообщения на соответствие значению '{popupText}'")
-  public MuseumCardPage checkPopupText(String popupText) {
-    popup.shouldHave(text(popupText));
     return this;
   }
 }

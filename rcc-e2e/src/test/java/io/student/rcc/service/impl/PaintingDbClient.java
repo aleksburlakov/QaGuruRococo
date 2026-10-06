@@ -1,4 +1,4 @@
-package io.student.rcc.service;
+package io.student.rcc.service.impl;
 
 import io.student.rcc.config.Config;
 import io.student.rcc.data.entity.ArtistEntity;
@@ -13,6 +13,7 @@ import io.student.rcc.data.tpl.XaTransactionTemplate;
 import io.student.rcc.model.ArtistJson;
 import io.student.rcc.model.MuseumJson;
 import io.student.rcc.model.PaintingJson;
+import io.student.rcc.service.PaintingClient;
 import org.jspecify.annotations.NonNull;
 
 import java.util.List;

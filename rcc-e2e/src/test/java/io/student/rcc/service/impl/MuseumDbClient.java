@@ -1,4 +1,4 @@
-package io.student.rcc.service;
+package io.student.rcc.service.impl;
 
 import io.qameta.allure.Step;
 import io.student.rcc.config.Config;
@@ -8,9 +8,9 @@ import io.student.rcc.data.repository.CountryRepository;
 import io.student.rcc.data.repository.MuseumRepository;
 import io.student.rcc.data.tpl.XaTransactionTemplate;
 import io.student.rcc.model.MuseumJson;
+import io.student.rcc.service.MuseumClient;
 import org.jspecify.annotations.NonNull;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;

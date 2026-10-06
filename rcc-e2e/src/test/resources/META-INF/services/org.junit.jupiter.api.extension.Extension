@@ -1,1 +1,3 @@
 io.student.rcc.jupiter.extension.TestMethodContextExtension
+io.student.rcc.jupiter.extension.CookieExtension
+io.student.rcc.jupiter.extension.DatabasesExtension

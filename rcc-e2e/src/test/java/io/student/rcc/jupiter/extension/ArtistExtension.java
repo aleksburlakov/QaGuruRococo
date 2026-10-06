@@ -4,7 +4,6 @@ import io.student.rcc.jupiter.annotation.Artist;
 import io.student.rcc.model.ArtistJson;
 import io.student.rcc.model.TestData;
 import io.student.rcc.service.ArtistClient;
-import io.student.rcc.service.ArtistDbClient;
 import io.student.rcc.utils.TestDataGenerator;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
@@ -14,7 +13,7 @@ import org.junit.platform.commons.support.AnnotationSupport;
 public class ArtistExtension implements BeforeEachCallback, AfterEachCallback, ParameterResolver {
 
   public static final ExtensionContext.Namespace NAMESPACE = ExtensionContext.Namespace.create(ArtistExtension.class);
-  private final ArtistClient artistClient = new ArtistDbClient();
+  private final ArtistClient artistClient = ArtistClient.getInstance();
 
   @Override
   public void beforeEach(ExtensionContext context) throws Exception {

@@ -9,7 +9,7 @@ import io.student.rcc.jupiter.extension.TestDataExtension;
 import io.student.rcc.model.TestData;
 import io.student.rcc.page.MainPage;
 import io.student.rcc.service.MuseumClient;
-import io.student.rcc.service.MuseumDbClient;
+import io.student.rcc.service.impl.MuseumDbClient;
 import io.student.rcc.utils.TestDataGenerator;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;

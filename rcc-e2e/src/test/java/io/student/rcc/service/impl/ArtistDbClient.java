@@ -1,4 +1,4 @@
-package io.student.rcc.service;
+package io.student.rcc.service.impl;
 
 import io.qameta.allure.Step;
 import io.student.rcc.config.Config;
@@ -6,6 +6,7 @@ import io.student.rcc.data.entity.ArtistEntity;
 import io.student.rcc.data.repository.ArtistRepository;
 import io.student.rcc.data.tpl.XaTransactionTemplate;
 import io.student.rcc.model.ArtistJson;
+import io.student.rcc.service.ArtistClient;
 import org.jspecify.annotations.NonNull;
 
 import java.util.List;
