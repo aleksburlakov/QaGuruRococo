@@ -1,4 +1,4 @@
-np# RCC-API - Resource Server
+# RCC-API - Resource Server
 
 ## Описание
 
